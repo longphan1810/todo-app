@@ -10,7 +10,7 @@
   <div class="task-list">
     <p class="task-list-title">Task list</p>
     <div *ngFor="let task of listTask">
-      <app-task (taskSelected)="choseTask($event)" [task]="task" [chosen]="task == chosenTask ? true : false"></app-task>
+      <app-task (taskSelected)="choseTask($event)" [task]="task" [chosen]="task.taskName == chosenTask.taskName && task.taskDes == chosenTask.taskDes ? true : false"></app-task>
       <!-- <p>{{task.taskName}}</p> -->
     </div>
     <div class="task-list-button">

@@ -59,18 +59,27 @@ function createRouter(db) {
   });
   router.put('/', function (req, res, next) {
     db.query(
-      `UPDATE task USE INDEX (index_id) SET id=${req.body.nextTask.id} taskName=${req.body.nextTask.taskName} taskDes=${req.body.nextTask.taskDes}  WHERE index_id=${req.body.index}`,
+      `UPDATE task SET taskName=?, taskDes=?  WHERE id=${req.body.task.id}`, [req.body.nextTask.taskName.toString(), req.body.nextTask.taskDes.toString()],
       
       (error, results) => {
         if (error) {
           console.log(error);
           res.status(500).json({status: 'error'});
         } else {
-          res.status(200).json(results);
+          db.query(`UPDATE task SET taskName=?, taskDes=?  WHERE id=${req.body.nextTask.id}`, [req.body.task.taskName.toString(), req.body.task.taskDes.toString()],
+          (error, results) => {
+            if (error) {
+              console.log(error);
+              res.status(500).json({status: 'error'});
+            } else {
+              res.status(200).json(results);
+            }
+          })
         }
       }
     );
   });
+  
   return router;
 }
  

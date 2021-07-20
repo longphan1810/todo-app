@@ -19,7 +19,7 @@ export class MserviceService {
     return this.httpClient.delete(`${this.apiurl}/${data.id}`, data);
   }
 
-  moveDown(data: any) {
+  move(data: any) {
     return this.httpClient.put(this.apiurl, data);
   }
 
