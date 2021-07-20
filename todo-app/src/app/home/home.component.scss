@@ -1,0 +1,105 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.app-title {
+  width: 100%;
+  margin: 2% 0;
+  p {
+    width: fit-content;
+    margin-left: 50%;
+    transform: translate(-50%);
+    font-size: 3em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: palevioletred;
+  }
+}
+
+.task {
+  display: flex;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  .task-input {
+    width: 30%;
+
+
+  }
+  .task-list {
+    min-height: 60vh;
+    padding: 10px;
+    width: 20%;
+    position: relative;
+    border: solid 3px rgb(223, 152, 66);
+
+    .task-list-title {
+      width: fit-content;
+      margin-left: 50%;
+
+      transform: translate(-50%);
+      color: rgb(223, 152, 66);
+      font-size: 1.5em;
+    }
+
+    .task-list-button {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      bottom: -15px;
+      margin-top: 20px;
+      button {
+        background-color: rgb(223, 152, 66);
+        position: relative;
+        bottom: 0;
+        border-color: transparent;
+        cursor: pointer;
+        padding: 3px 10px;
+        color: white;
+        margin: 0 5px;
+        transition: 0.5s;
+        &:hover {
+          background-color: green;
+        }
+
+      }
+
+      #doneBtn {
+        &:hover {
+        background-color: red;
+        }
+      }
+
+    }
+
+  }
+
+
+}
+
+
+@media only screen and (max-width: 769px) {
+  .app-title {
+    p {
+      font-size: 2em;
+    }
+  }
+  .task {
+    display: block;
+    .task-input {
+      width: 100%;
+      margin-bottom: 10%;
+
+    }
+    .task-list {
+      width: 80%;
+      margin-left: 50%;
+      transform: translate(-50%);
+      margin-bottom: 10%;
+    }
+  }
+
+
+}

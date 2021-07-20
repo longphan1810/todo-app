@@ -1,0 +1,7 @@
+<div class="task-form">
+  <p>Task name</p>
+  <input id="taskName" (change)="handleChangeName($event)" type="text"  name="task-name" required>
+  <p>Task description</p>
+  <textarea id="taskDes" (change)="handleChangeDes($event)" rows="8" name="task-description" draggable="true"></textarea><br>
+  <button  class="task-form-button" name="task-button" (click)="handleAdd()">ADD</button>
+</div>

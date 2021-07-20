@@ -1,0 +1,67 @@
+
+
+.task-form {
+  position: relative;
+  margin: 10% 0 0 10%;
+  padding: 10px;
+  max-width: 60%;
+  color: palevioletred;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2em;
+  border: solid 3px palevioletred;
+  border-radius: 20px;
+  margin-left: 50%;
+  transform: translate(-50%);
+  .task-form-button {
+    color: palevioletred;
+    background-color: white;
+    border: solid 2px palevioletred;
+    position: relative;
+    border-radius: 10px;
+    padding: 3px 10px;
+    float: right;
+    margin-right: 3px;
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover {
+      background-color: palevioletred;
+      color: white;
+      border-color: transparent;
+    }
+  }
+  input {
+    width: 98%;
+    height: 2vh;
+    margin-bottom: 10px;
+    border-color: transparent;
+    background-color: palevioletred;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+
+    &:focus {
+
+      outline-color: rgb(223, 152, 66);
+
+    }
+  }
+  textarea {
+    width: 98%;
+    border-color: transparent;
+    border-radius: 10px;
+    background-color: rgb(240, 183, 202);
+    margin-bottom: 10px;
+    &:focus {
+
+      outline-color: rgb(223, 152, 66);
+
+    }
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  .task-form {
+
+    width: 120%;
+  }
+}

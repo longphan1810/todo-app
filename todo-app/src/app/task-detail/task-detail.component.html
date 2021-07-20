@@ -1,0 +1,9 @@
+<div class="taskDetail"><p>TASK DETAIL</p></div>
+<div class="taskDetailName"><p>{{task.taskName}}</p></div>
+<div class="taskDetailDes">
+  <p>{{task.taskDes}}</p>
+  <button id="btn1" ><a routerLink = "/">BACK </a></button>
+  <button id="btn2" ><a (click)="handleDelete(task)" routerLink = "/">DONE</a></button>
+</div>
+
+

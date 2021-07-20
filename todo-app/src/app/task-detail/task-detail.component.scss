@@ -1,0 +1,87 @@
+* {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.taskDetail {
+  color: palevioletred;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+  margin-top: 5%;
+}
+.taskDetailName {
+  width: 40%;
+  border: solid 3px palevioletred;
+  border-radius: 20px;
+  color: palevioletred;
+  margin-top: 2%;
+  padding: 3px 10px;
+  font-size: 1.5em;
+  text-align: center;
+  word-wrap: break-word;
+  margin-left: 50%;
+  transform: translate(-50%);
+
+}
+
+.taskDetailDes {
+  position: relative;
+  width: 38%;
+  min-height: 40vh;
+  background-color: rgb(223, 152, 66);;
+  color: white;
+  text-align: center;
+  padding: 3px 10px;
+  word-wrap: break-word;
+  margin-left: 50%;
+  transform: translate(-50%);
+  p {
+    width: fit-content;
+    height: fit-content;
+    margin-left: 50%;
+    margin-top: 30%;
+    transform: translate(-50%, -50%);
+  }
+  #btn1 {
+    position: absolute;
+    bottom: calc(-0.5em - 4px);
+    left: 10px;
+    border: solid 2px palevioletred;
+    padding: 3px 10px;
+    background-color: white;
+    transition: 0.5s;
+    a {
+      text-decoration: none;
+      color: palevioletred;
+    }
+    &:hover {
+      background-color: green;
+      border:solid green;
+      a {
+        color: white;
+      }
+    }
+  }
+  #btn2 {
+    position: absolute;
+    bottom: calc(-0.5em - 4px);
+    right: 10px;
+    border: solid 2px palevioletred;
+    padding: 3px 10px;
+    background-color: white;
+    transition: 0.5s;
+    a {
+      text-decoration: none;
+      color: palevioletred;
+    }
+    &:hover {
+      background-color: red;
+      border:solid red;
+      a {
+        color: white;
+      }
+    }
+  }
+
+}
+

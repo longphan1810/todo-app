@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.task-item {
+  background-color: rgb(223, 152, 66);
+  width: 80%;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 10px;
+  margin-left: 50%;
+  transform: translate(-50%);
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.task-chosen {
+  background-color: rgb(24, 153, 46);
+  width: 80%;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 10px;
+  margin-left: 50%;
+  transform: translate(-50%);
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
