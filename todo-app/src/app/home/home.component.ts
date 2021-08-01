@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 
 
@@ -9,23 +9,19 @@ import { HomeService } from './home.service';
   providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
+  public state$: any;
   public state: any = [];
   public chosenTask: any = {};
   constructor(private homeService: HomeService) { }
 
   ngOnInit(): void {
     this.homeService.getData();
-    this.homeService.state$.subscribe((state) => {
-      this.state = state
-      console.log('this state is: ', this.state);
-    });
-
+    this.state$ = this.homeService.state$
+    this.state$.subscribe((state: any) => this.state = state);
   }
 
   addTask(task: any) {
-    console.log(task);
-    this.state = [task, ...this.state];
-
+    this.homeService.postData(task);
   }
 
   choseTask(task: any) {

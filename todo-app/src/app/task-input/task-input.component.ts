@@ -33,8 +33,9 @@ export class TaskInputComponent implements OnInit {
       alert('Task name is required')
       return;
     }
+    // this.taskInputService.postData({taskName: this.taskNameInput, taskDes: this.taskDesInput});
     this.sendTask.emit({taskName: this.taskNameInput, taskDes: this.taskDesInput});
-    this.taskInputService.postData({taskName: this.taskNameInput, taskDes: this.taskDesInput});
+
     this.taskNameInput = '';
     this.taskDesInput = '';
     const taskNameEle: any = document.getElementById('taskName');

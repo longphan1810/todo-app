@@ -1,4 +1,4 @@
-import { Component, DoCheck, Input, OnChanges, OnInit } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskDetailService } from './task-detail.service';
 @Component({
@@ -7,7 +7,7 @@ import { TaskDetailService } from './task-detail.service';
   styleUrls: ['./task-detail.component.scss'],
   providers: [TaskDetailComponent]
 })
-export class TaskDetailComponent implements OnInit {
+export class TaskDetailComponent implements OnInit, AfterViewInit {
   state: any = [];
   task: any = {};
 
@@ -21,6 +21,10 @@ export class TaskDetailComponent implements OnInit {
       const taskName = this.route.snapshot.params['taskName'];
       this.task = this.state.find((task: any) => task.taskName == taskName);
     });
+  }
+
+  ngAfterViewInit() {
+
   }
 
   handleDelete(task: any) {

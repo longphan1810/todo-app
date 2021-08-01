@@ -9,24 +9,32 @@ import { Observable } from 'rxjs';
 })
 export class HomeService implements OnDestroy {
   private subcriber: any = [];
-  private _store: homeStore;
+  private _store = new homeStore();
   private apiurl = 'http://localhost:8080';
 
-  constructor(private httpClient: HttpClient) {
-    this._store = new homeStore();
-  }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnDestroy(): void {
     this.subcriber.forEach((sub: any) => {sub.unsubscribe();});
   }
 
+  postData (data:any) {
+    const postData = this.httpClient.post(this.apiurl, data).subscribe((data) => {
+      console.log(data);
+      this.getData()
+    });
+    this.subcriber.push(postData);
+  }
+
   getData() {
-    const getData = this.httpClient.get(this.apiurl).subscribe((data: any) => this._store._state.next(data));
+    const getData = this.httpClient.get(this.apiurl).subscribe((data: any) => {this._store.pushNext(data);});
     this.subcriber.push(getData);
   }
 
   move(data: any) {
-    const move = this.httpClient.put(this.apiurl, data).subscribe((data) => console.log(data));
+    const move = this.httpClient.put(this.apiurl, data).subscribe((data) => {
+      console.log(data);
+    });
     this.subcriber.push(move);
   }
 

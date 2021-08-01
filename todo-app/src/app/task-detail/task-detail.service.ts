@@ -7,11 +7,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TaskDetailService implements OnDestroy {
   private subcriber: any = [];
-  private _store: taskDetailStore;
+  private _store = new taskDetailStore();
   private apiurl = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) {
-    this._store = new taskDetailStore();
   }
 
   ngOnDestroy(): void {

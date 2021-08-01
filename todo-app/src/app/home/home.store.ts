@@ -17,7 +17,7 @@ export class homeStore {
     return this._state.value;
   }
 
-  public pushNext() {
-    this._state.next(this._state.value);
+  public pushNext(value: any) {
+    this._state.next(value);
   }
 }
