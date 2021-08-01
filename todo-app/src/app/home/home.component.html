@@ -9,7 +9,7 @@
   </div>
   <div class="task-list">
     <p class="task-list-title">Task list</p>
-    <div *ngFor="let task of listTask">
+    <div *ngFor="let task of state">
       <app-task (taskSelected)="choseTask($event)" [task]="task" [chosen]="task.taskName == chosenTask.taskName && task.taskDes == chosenTask.taskDes ? true : false"></app-task>
       <!-- <p>{{task.taskName}}</p> -->
     </div>

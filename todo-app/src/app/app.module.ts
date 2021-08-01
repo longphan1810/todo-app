@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TaskComponent } from './task/task.component';
 import { TaskInputComponent } from './task-input/task-input.component';
-import { MserviceService } from './mservice.service';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [MserviceService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,31 +13,30 @@ export class TaskComponent implements OnInit, OnChanges {
   @Input()
   chosen: any = false;
 
-
-
   @Output()
   taskSelected = new EventEmitter();
-  constructor(private router: Router) {}
 
   className = '';
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     console.log(this.task)
   }
-  onTaskSelected() {
 
+  onTaskSelected() {
     this.taskSelected.emit(this.task);
   }
+
   navigateTask() {
-    this.router.navigate([this.task.taskName])
+    this.router.navigate([this.task.taskName]);
   }
 
   ngOnChanges() {
-    this.className = this.chosen ? "task-chosen" : "task-item";
+    let selected = "task-chosen";
+    let nun = "task-item"
+    this.className = this.chosen ? selected : nun;
   }
+}
 
-}
-function block(block: any) {
-  throw new Error('Function not implemented.');
-}
 
