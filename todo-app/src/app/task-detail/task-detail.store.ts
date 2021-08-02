@@ -15,7 +15,7 @@ export class taskDetailStore {
     return this._state.value;
   }
 
-  public pushNext() {
-    this._state.next(this._state.value);
+  public pushNext(task: any) {
+    this._state.next(task);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 
 
@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   public state$: any;
   public state: any = [];
   public chosenTask: any = {};
+
   constructor(private homeService: HomeService) { }
 
   ngOnInit(): void {
@@ -26,7 +27,6 @@ export class HomeComponent implements OnInit {
 
   choseTask(task: any) {
     this.chosenTask = task;
-    console.log(this.chosenTask);
   }
 
   handleTop(task: any) {

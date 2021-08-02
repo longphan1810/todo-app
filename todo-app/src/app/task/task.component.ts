@@ -1,15 +1,15 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 
-
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
+
 export class TaskComponent implements OnInit, OnChanges {
   @Input()
-  task: any;
+  task: any = {taskName: null, taskDes: null};
   @Input()
   chosen: any = false;
 
@@ -20,9 +20,7 @@ export class TaskComponent implements OnInit, OnChanges {
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    console.log(this.task)
-  }
+  ngOnInit(): void {}
 
   onTaskSelected() {
     this.taskSelected.emit(this.task);

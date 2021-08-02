@@ -3,7 +3,6 @@
 </div>
 
 <div class="task">
-
   <div class="task-input">
     <app-task-input (sendTask)="addTask($event)"></app-task-input>
   </div>
@@ -19,6 +18,6 @@
       <button id="doneBtn" (click)="handleDelete(chosenTask)">DONE</button>
     </div>
   </div>
-
 </div>
+
 <router-outlet></router-outlet>

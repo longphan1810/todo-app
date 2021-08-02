@@ -1,7 +1,5 @@
 import { BehaviorSubject, Observable } from "rxjs";
 
-
-
 export class homeStore {
   private INITIAL_STATE =  [];
 
