@@ -39,7 +39,7 @@ describe('HomeService', () => {
 
     it('call API PUT to server', () => {
       spyOn(httpClient, 'put').and.callThrough();
-      service.move({taskName: 'test', teskDes: 'test'});
+      service.moveData({taskName: 'test', teskDes: 'test'});
       expect(httpClient.put).toHaveBeenCalled();
     })
 
@@ -62,6 +62,39 @@ describe('HomeService', () => {
     it('get state value', () => {
       let state = service.state;
       expect(state).toEqual(service._store._state.value);
+    })
+  })
+
+  describe('moveTop method', () => {
+    it('should return when no chosen task', () => {
+      let moveTop = service.moveTop({taskName: null}, []);
+      expect(moveTop).toEqual(undefined);
+    })
+
+    it('shoud run when have chosen task', () => {
+      let task = {taskName: 'test3', taskDes: 'test'}
+      let listTask = [{taskName: 'test', taskDes: 'test'}, {taskName: 'test2', taskDes: 'test'}, {taskName: 'test3', taskDes: 'test'}]
+      service.moveTop(task, listTask);
+      expect(task).toEqual({taskName: 'test', taskDes: 'test'});
+    })
+  })
+
+  describe('moveDown method', () => {
+    it('should return when no chosen task', () => {
+      let moveTop = service.moveDown({taskName: null}, []);
+      expect(moveTop).toEqual(undefined);
+    })
+
+    it('should return when chosen task is the last task', () => {
+      let moveTop = service.moveDown({taskName: 'test2', taskDes: 'test'}, [{taskName: 'test', taskDes: 'test'}, {taskName: 'test2', taskDes: 'test'}]);
+      expect(moveTop).toEqual(undefined);
+    })
+
+    it('shoud run when have chosen task is not the last task', () => {
+      let task = {taskName: 'test', taskDes: 'test'};
+      let listTask = [{taskName: 'test', taskDes: 'test'}, {taskName: 'test2', taskDes: 'test'}, {taskName: 'test3', taskDes: 'test'}];
+      service.moveDown(task, listTask);
+      expect(task).toEqual({taskName: 'test2', taskDes: 'test'});
     })
   })
 

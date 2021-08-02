@@ -34,7 +34,7 @@ export class HomeService implements OnDestroy {
     this.subscriber.push(getData);
   }
 
-  move(data: any) {
+  moveData(data: any) {
     const move = this.httpClient.put(this.apiurl, data).subscribe((data) => {
       console.log(data);
     });
@@ -44,6 +44,39 @@ export class HomeService implements OnDestroy {
   deleteData(data: any) {
     const deleted = this.httpClient.delete(`${this.apiurl}/${data.id}`, data).subscribe((data) => console.log(data));
     this.subscriber.push(deleted);
+  }
+
+  moveTop(task: any, listTask: any[]) {
+    if (task.taskName == null) {
+      return;
+    }
+
+    this.moveData({task: task, nextTask: listTask[0]});
+    let taskName = task.taskName;
+    let taskDes = task.taskDes;
+    task.taskName = listTask[0].taskName;
+    task.taskDes = listTask[0].taskDes;
+    listTask[0].taskName = taskName;
+    listTask[0].taskDes = taskDes;
+  }
+
+  moveDown(task: any, listTask: any) {
+    if (task.taskName == null) {
+      return;
+    }
+
+    let indexChange: any = listTask.findIndex((task: any) => task == task);
+    if (indexChange == this.state.length -1) {
+      return;
+    }
+
+    this.moveData({task: task, nextTask: listTask[indexChange+1]});
+    let taskName = task.taskName;
+    let taskDes = task.taskDes;
+    task.taskName = listTask[indexChange+1].taskName;
+    task.taskDes = listTask[indexChange+1].taskDes;
+    listTask[indexChange+1].taskName = taskName;
+    listTask[indexChange+1].taskDes = taskDes;
   }
 
   get state$() {

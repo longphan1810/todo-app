@@ -13,8 +13,8 @@
       <!-- <p>{{task.taskName}}</p> -->
     </div>
     <div class="task-list-button">
-      <button (click)="handleTop(chosenTask)">TOP</button>
-      <button (click)="handleDown(chosenTask)">DOWN</button>
+      <button (click)="handleTop(chosenTask, state)">TOP</button>
+      <button (click)="handleDown(chosenTask, state)">DOWN</button>
       <button id="doneBtn" (click)="handleDelete(chosenTask)">DONE</button>
     </div>
   </div>
