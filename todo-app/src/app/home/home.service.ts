@@ -65,7 +65,7 @@ export class HomeService implements OnDestroy {
       return;
     }
 
-    let indexChange: any = listTask.findIndex((task: any) => task == task);
+    let indexChange: any = listTask.findIndex((item: any) => item.id == task.id);
     if (indexChange == this.state.length -1) {
       return;
     }

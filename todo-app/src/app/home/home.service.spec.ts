@@ -91,10 +91,10 @@ describe('HomeService', () => {
     })
 
     it('shoud run when have chosen task is not the last task', () => {
-      let task = {taskName: 'test', taskDes: 'test'};
-      let listTask = [{taskName: 'test', taskDes: 'test'}, {taskName: 'test2', taskDes: 'test'}, {taskName: 'test3', taskDes: 'test'}];
+      let task = {id: 1, taskName: 'test', taskDes: 'test'};
+      let listTask = [{id: 1, taskName: 'test', taskDes: 'test'}, {id: 2, taskName: 'test2', taskDes: 'test'}, {id: 3, taskName: 'test3', taskDes: 'test'}];
       service.moveDown(task, listTask);
-      expect(task).toEqual({taskName: 'test2', taskDes: 'test'});
+      expect(task).toEqual({id: 1, taskName: 'test2', taskDes: 'test'});
     })
   })
 
