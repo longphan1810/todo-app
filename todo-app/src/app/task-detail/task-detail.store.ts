@@ -1,21 +1,19 @@
 import { BehaviorSubject, Observable } from "rxjs";
 
 export class taskDetailStore {
-  private INITIAL_STATE =  [];
-
-  public _state = new BehaviorSubject(this.INITIAL_STATE);
+  public state: BehaviorSubject<{taskName: null, taskDes: null}[]> = new BehaviorSubject([{taskName: null, taskDes: null}]);
 
   constructor() {}
 
-  public getState$() {
-    return this._state.asObservable();
+  public getState$(): Observable<{taskName: null, taskDes: null}[]> {
+    return this.state.asObservable();
   }
 
   public getState() {
-    return this._state.value;
+    return this.state.value;
   }
 
-  public pushNext(task: any) {
-    this._state.next(task);
+  public pushNext(value: any) {
+    this.state.next(value);
   }
 }

@@ -21,32 +21,32 @@ describe('TaskDetailService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('connect to API server', () => {
-    it('call API GET to server', () => {
+  describe('connect to API server methods: getData, deleteData', () => {
+    it('should call API GET to server when get data push to store', () => {
       spyOn(httpClient, 'get').and.callThrough();
       service.getData();
       expect(httpClient.get).toHaveBeenCalled();
     })
 
-    it('call API DELETE to server', () => {
+    it('should call API DELETE to server when delete current task', () => {
       spyOn(httpClient, 'delete').and.callThrough();
       service.deleteData({taskName: 'test', teskDes: 'test'});
       expect(httpClient.delete).toHaveBeenCalled();
     })
   })
 
-  describe('get state', () => {
+  describe('get state methods', () => {
     beforeEach(() => {
       service.initialize();
     });
 
-    it('get state as observable', () => {
-      service.state$.subscribe((state) => expect(state).toEqual(service._store._state.value))
+    it('should return observable of state', () => {
+      service.state$.subscribe((state) => expect(state).toEqual(service.store.state.value))
     })
 
-    it('get state value', () => {
+    it('should return state value', () => {
       let state = service.state;
-      expect(state).toEqual(service._store._state.value);
+      expect(state).toEqual(service.store.state.value);
     })
   })
 

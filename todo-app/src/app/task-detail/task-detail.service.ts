@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { taskDetailStore } from './task-detail.store';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,35 +9,34 @@ import { HttpClient } from '@angular/common/http';
 
 export class TaskDetailService implements OnDestroy {
   public subscriber: any = [];
-  public _store = new taskDetailStore();
-  private apiurl = 'http://localhost:8080';
+  public store = new taskDetailStore();
+  private apiUrl = 'http://localhost:8080';
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   ngOnDestroy(): void {
     this.subscriber.forEach((sub: any) => {sub.unsubscribe();});
   }
 
   initialize() {
-    this._store = new taskDetailStore;
+    this.store = new taskDetailStore;
   }
 
   getData() {
-    const getData = this.httpClient.get(this.apiurl).subscribe((data: any) => this._store.pushNext(data));
+    const getData = this.httpClient.get(this.apiUrl).subscribe((data: any) => this.store.pushNext(data));
     this.subscriber.push(getData);
   }
 
   deleteData(data: any) {
-    const deleted = this.httpClient.delete(`${this.apiurl}/${data.id}`, data).subscribe((data) => console.log(data));
+    const deleted = this.httpClient.delete(`${this.apiUrl}/${data.id}`, data).subscribe((data) => console.log(data));
     this.subscriber.push(deleted);
   }
 
-  get state$() {
-    return this._store.getState$();
+  get state$(): Observable<{taskName: null, taskDes: null}[]> {
+    return this.store.getState$();
   }
 
   get state() {
-    return this._store.getState();
+    return this.store.getState();
   }
 }

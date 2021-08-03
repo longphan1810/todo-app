@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HomeService } from './home.service';
-
 
 @Component({
   selector: 'app-home',
@@ -9,16 +9,17 @@ import { HomeService } from './home.service';
   providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
-  public state$: any;
-  public state: any = [];
-  public chosenTask: any = {};
 
-  constructor(private homeService: HomeService) { }
+  public chosenTask = {taskName: null, taskDes: null};
+
+  constructor(private homeService: HomeService) {}
+
+  get state$(): Observable<{taskName: null, taskDes: null}[]> {
+    return this.homeService.state$;
+  }
 
   ngOnInit(): void {
     this.homeService.getData();
-    this.state$ = this.homeService.state$
-    this.state$.subscribe((state: any) => this.state = state);
   }
 
   addTask(task: any) {
@@ -29,22 +30,15 @@ export class HomeComponent implements OnInit {
     this.chosenTask = task;
   }
 
-  handleTop(task: any, state: any) {
-    this.homeService.moveTop(task, state);
-    this.chosenTask = this.state[0];
+  handleTop(task: any) {
+    this.chosenTask = this.homeService.moveTop(task);
   }
 
-  handleDown(task: any, state: any) {
-    let indexChange: any = this.state.findIndex((value: null) => value == task);
-    this.homeService.moveDown(task, state)
-    this.chosenTask = this.state[indexChange+1];
+  handleDown(task: any) {
+    this.chosenTask = this.homeService.moveDown(task)
   }
 
   handleDelete(task: any) {
-    if (task.taskName == null) {
-      return;
-    }
-    this.state = this.state.filter((item: any) => item !== task);
     this.homeService.deleteData(task);
   }
 }

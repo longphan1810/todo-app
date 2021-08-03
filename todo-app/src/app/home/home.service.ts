@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HomeService implements OnDestroy {
-  public subscriber: any = [];
-  public _store = new homeStore();
-  private apiurl = 'http://localhost:8080';
+  public subscriber: any[] = [];
+  public store = new homeStore();
+  private apiUrl = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -17,12 +17,8 @@ export class HomeService implements OnDestroy {
     this.subscriber.forEach((sub: any) => {sub.unsubscribe();});
   }
 
-  initialize() {
-    this._store = new homeStore;
-  }
-
   postData (data: any) {
-    const postData = this.httpClient.post(this.apiurl, data).subscribe((data) => {
+    const postData = this.httpClient.post(this.apiUrl, data).subscribe((data) => {
       console.log('success', data);
       this.getData()
     }, (error) => console.log('oops', error));
@@ -30,27 +26,35 @@ export class HomeService implements OnDestroy {
   }
 
   getData() {
-    const getData = this.httpClient.get(this.apiurl).subscribe((data: any) => {this._store.pushNext(data);});
+    const getData = this.httpClient.get(this.apiUrl).subscribe((data: any) => {this.store.pushNext(data);});
     this.subscriber.push(getData);
   }
 
   moveData(data: any) {
-    const move = this.httpClient.put(this.apiurl, data).subscribe((data) => {
+    const move = this.httpClient.put(this.apiUrl, data).subscribe((data) => {
       console.log(data);
     });
     this.subscriber.push(move);
   }
 
   deleteData(data: any) {
-    const deleted = this.httpClient.delete(`${this.apiurl}/${data.id}`, data).subscribe((data) => console.log(data));
-    this.subscriber.push(deleted);
-  }
-
-  moveTop(task: any, listTask: any[]) {
-    if (task.taskName == null) {
+    if (!data.taskName) {
       return;
     }
 
+    const deleted = this.httpClient.delete(`${this.apiUrl}/${data.id}`, data).subscribe((data) => {
+      console.log(data);
+      this.getData();
+    });
+    this.subscriber.push(deleted);
+  }
+
+  moveTop(task: any) {
+    if (!task.taskName) {
+      return {taskName: null, taskDes: null};
+    }
+
+    let listTask: any[] = this.state;
     this.moveData({task: task, nextTask: listTask[0]});
     let taskName = task.taskName;
     let taskDes = task.taskDes;
@@ -58,16 +62,18 @@ export class HomeService implements OnDestroy {
     task.taskDes = listTask[0].taskDes;
     listTask[0].taskName = taskName;
     listTask[0].taskDes = taskDes;
+    return listTask[0];
   }
 
-  moveDown(task: any, listTask: any) {
-    if (task.taskName == null) {
-      return;
+  moveDown(task: any) {
+    if (!task.taskName) {
+      return {taskName: null, taskDes: null};
     }
 
+    let listTask: any[] = this.state;
     let indexChange: any = listTask.findIndex((item: any) => item.id == task.id);
     if (indexChange == this.state.length -1) {
-      return;
+      return {taskName: null, taskDes: null};
     }
 
     this.moveData({task: task, nextTask: listTask[indexChange+1]});
@@ -77,13 +83,14 @@ export class HomeService implements OnDestroy {
     task.taskDes = listTask[indexChange+1].taskDes;
     listTask[indexChange+1].taskName = taskName;
     listTask[indexChange+1].taskDes = taskDes;
+    return listTask[indexChange+1];
   }
 
-  get state$() {
-    return this._store.getState$();
+  get state$(): Observable<{taskName: null, taskDes: null}[]> {
+    return this.store.getState$();
   }
 
   get state() {
-    return this._store.getState();
+    return this.store.getState();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskDetailService } from './task-detail.service';
 
@@ -10,8 +10,8 @@ import { TaskDetailService } from './task-detail.service';
 })
 
 export class TaskDetailComponent implements OnInit {
-  state: any = [];
-  task: any = {};
+  state: {taskName: null, taskDes: null}[]= [{taskName: null, taskDes: null}];
+  task: {taskName: null, taskDes: null} | undefined  = {taskName: null, taskDes: null};
 
   constructor(private route: ActivatedRoute,private taskDetailService: TaskDetailService) {}
 
@@ -21,11 +21,12 @@ export class TaskDetailComponent implements OnInit {
       this.state = state;
       const taskName = this.route.snapshot.params['taskName'];
       this.state.find((task: any) => task.taskName == taskName) ? this.task = this.state.find((task: any) => task.taskName == taskName) : this.task = {taskName: null, taskDes: null};
-    });
+    }).unsubscribe;
   }
 
   handleDelete(task: any) {
     this.state = this.state.filter((item: any) => item !== task);
     this.taskDetailService.deleteData(task)
   }
+
 }

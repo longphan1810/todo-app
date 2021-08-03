@@ -27,10 +27,10 @@ function createRouter(db) {
       }
     );
   });
+
   router.get('/', function (req, res, next) {
     db.query(
       `SELECT * FROM task ORDER BY id DESC`,
-      
       (error, results) => {
         if (error) {
           console.log(error);
@@ -41,8 +41,8 @@ function createRouter(db) {
       }
     );
   });
+
   router.delete('/:id', function (req, res, next) {
-    
     db.query(
       `DELETE FROM task WHERE id=?`,
       Number.parseInt([req.params.id]),
@@ -51,16 +51,15 @@ function createRouter(db) {
           console.log(error);
           res.status(500).json({status: 'error'});
         } else {
-          
           res.status(200).json({status: 'ok'});
         }
       }
     );
   });
+
   router.put('/', function (req, res, next) {
     db.query(
       `UPDATE task SET taskName=?, taskDes=?  WHERE id=${req.body.task.id}`, [req.body.nextTask.taskName.toString(), req.body.nextTask.taskDes.toString()],
-      
       (error, results) => {
         if (error) {
           console.log(error);
