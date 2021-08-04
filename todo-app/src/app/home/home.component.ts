@@ -10,7 +10,6 @@ import { stateInterface, taskInterface } from './home.store';
   providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
-
   public chosenTask = {taskName: '', taskDes: ''};
 
   constructor(private homeService: HomeService) {}

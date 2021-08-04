@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable } from "rxjs";
 
-export interface taskInterface{
+export interface taskInterface {
   id?: number,
   taskName: string,
   taskDes: string
@@ -9,9 +9,7 @@ export interface taskInterface{
 export interface stateInterface extends Array<taskInterface> {}
 
 export class taskDetailStore {
-
   private initState: stateInterface = [{id: 0, taskName: '', taskDes: ''}]
-
   public state: BehaviorSubject<stateInterface> = new BehaviorSubject(this.initState);
 
   constructor() {}
