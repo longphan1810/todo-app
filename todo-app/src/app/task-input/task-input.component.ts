@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-task-input',
@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 
 export class TaskInputComponent implements OnInit {
-  taskNameInput = '';
+  taskNameInput: string | null | undefined = '';
   taskDesInput = '' ;
 
   @Output()
@@ -18,12 +18,12 @@ export class TaskInputComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleChangeName (e: any) {
-    this.taskNameInput = e.target.value;
+  handleChangeName (e: Event) {
+    this.taskNameInput = (e.target as HTMLInputElement).value;
   }
 
-  handleChangeDes (e: any) {
-    this.taskDesInput = e.target.value;
+  handleChangeDes (e: Event) {
+    this.taskDesInput = (e.target as HTMLInputElement).value;
   }
 
   handleAdd () {
@@ -35,9 +35,9 @@ export class TaskInputComponent implements OnInit {
     this.sendTask.emit({taskName: this.taskNameInput, taskDes: this.taskDesInput});
     this.taskNameInput = '';
     this.taskDesInput = '';
-    const taskNameEle: any = document.getElementById('taskName');
-    taskNameEle? taskNameEle.value = '' : '';
-    const taskDesEle: any = document.getElementById('taskDes');
-    taskNameEle? taskDesEle.value = '' : '';
+    const taskNameEle: HTMLElement | null = document.getElementById('taskName');
+    taskNameEle? (taskNameEle as HTMLInputElement).value = '' : '';
+    const taskDesEle: HTMLElement | null = document.getElementById('taskDes');
+    taskNameEle? (taskDesEle as HTMLInputElement).value = '' : '';
   }
 }

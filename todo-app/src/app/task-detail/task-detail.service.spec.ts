@@ -30,15 +30,12 @@ describe('TaskDetailService', () => {
 
     it('should call API DELETE to server when delete current task', () => {
       spyOn(httpClient, 'delete').and.callThrough();
-      service.deleteData({taskName: 'test', teskDes: 'test'});
+      service.deleteData({taskName: 'test', taskDes: 'test'});
       expect(httpClient.delete).toHaveBeenCalled();
     })
   })
 
   describe('get state methods', () => {
-    beforeEach(() => {
-      service.initialize();
-    });
 
     it('should return observable of state', () => {
       service.state$.subscribe((state) => expect(state).toEqual(service.store.state.value))

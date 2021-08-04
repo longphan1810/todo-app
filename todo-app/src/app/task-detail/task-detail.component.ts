@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskDetailService } from './task-detail.service';
+import { Subscription } from 'rxjs';
+import { stateInterface } from '../home/home.store';
+import { taskInterface } from './task-detail.store';
 
 @Component({
   selector: 'app-task-detail',
@@ -9,24 +12,29 @@ import { TaskDetailService } from './task-detail.service';
   providers: [TaskDetailComponent]
 })
 
-export class TaskDetailComponent implements OnInit {
-  state: {taskName: null, taskDes: null}[]= [{taskName: null, taskDes: null}];
-  task: {taskName: null, taskDes: null} | undefined  = {taskName: null, taskDes: null};
+export class TaskDetailComponent implements OnInit, OnDestroy {
+  state: stateInterface = [{taskName: '', taskDes: ''}];
+  task: taskInterface | undefined = {taskName: '', taskDes: ''};
+  subscriber: Subscription[] = [];
 
-  constructor(private route: ActivatedRoute,private taskDetailService: TaskDetailService) {}
+  constructor(private route: ActivatedRoute, private taskDetailService: TaskDetailService) {}
 
   ngOnInit(): void {
     this.taskDetailService.getData()
-    this.taskDetailService.state$.subscribe((state) => {
+    const getState = this.taskDetailService.state$.subscribe((state) => {
       this.state = state;
       const taskName = this.route.snapshot.params['taskName'];
-      this.state.find((task: any) => task.taskName == taskName) ? this.task = this.state.find((task: any) => task.taskName == taskName) : this.task = {taskName: null, taskDes: null};
-    }).unsubscribe;
+      this.state.find((task: taskInterface) => task.taskName == taskName) ? this.task = this.state.find((task: taskInterface) => task.taskName == taskName) : this.task = {taskName: '', taskDes: ''};
+    })
+    this.subscriber.push(getState);
   }
 
-  handleDelete(task: any) {
-    this.state = this.state.filter((item: any) => item !== task);
+  ngOnDestroy () {
+    this.subscriber.forEach((sub) => sub.unsubscribe());
+  }
+
+  handleDelete(task: taskInterface) {
+    this.state = this.state.filter((item: taskInterface) => item !== task);
     this.taskDetailService.deleteData(task)
   }
-
 }

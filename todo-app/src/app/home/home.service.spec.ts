@@ -24,7 +24,7 @@ describe('HomeService', () => {
 
     it('should call API POST to server when add new task', () => {
       spyOn(httpClient, 'post').and.callThrough();
-      service.postData({taskName: 'test', taskDes: 'test'});
+      service.postData({id: 0, taskName: 'test', taskDes: 'test'});
       expect(httpClient.post).toHaveBeenCalled();
     })
 
@@ -36,13 +36,13 @@ describe('HomeService', () => {
 
     it('should call API PUT to server when move task (top/down)', () => {
       spyOn(httpClient, 'put').and.callThrough();
-      service.moveData({taskName: 'test', teskDes: 'test'});
+      service.moveData({task: {id: 0, taskName: 'test', taskDes: 'test'}, nextTask: {id: 0, taskName: 'test', taskDes: 'test'}});
       expect(httpClient.put).toHaveBeenCalled();
     })
 
     it('should call API DELETE to server when done a task', () => {
       spyOn(httpClient, 'delete').and.callThrough();
-      service.deleteData({taskName: 'test', teskDes: 'test'});
+      service.deleteData({id: 0, taskName: 'test', taskDes: 'test'});
       expect(httpClient.delete).toHaveBeenCalled();
     })
   })
@@ -64,8 +64,8 @@ describe('HomeService', () => {
     });
 
     it('should return a null task when no chosen task', () => {
-      let moveTop = service.moveTop({taskName: null});
-      expect(moveTop).toEqual({taskName: null, taskDes: null});
+      let moveTop = service.moveTop({taskName: '', taskDes: ''});
+      expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
     it('shoud move the chosen task to top when have chosen task', () => {
@@ -83,13 +83,13 @@ describe('HomeService', () => {
     });
 
     it('should return a null task when no chosen task', () => {
-      let moveTop = service.moveDown({taskName: null});
-      expect(moveTop).toEqual({taskName: null, taskDes: null});
+      let moveTop = service.moveDown({id: 0, taskName: '', taskDes: ''});
+      expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
     it('should return a null task when chosen task is the last task', () => {
       let moveTop = service.moveDown(service.state[service.state.length-1]);
-      expect(moveTop).toEqual({taskName: null, taskDes: null});
+      expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
     it('shoud move the chosen task down when have chosen task and it is not the last task', () => {
