@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TaskDetailService } from './task-detail.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -35,7 +35,7 @@ describe('TaskDetailService', () => {
     })
   })
 
-  describe('get state methods', () => {
+  describe('get state', () => {
 
     it('should return observable of state', () => {
       service.state$.subscribe((state) => expect(state).toEqual(service.store.state.value))

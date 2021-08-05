@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-task-input',
@@ -13,8 +13,6 @@ export class TaskInputComponent implements OnInit {
   @Output()
   sendTask = new EventEmitter();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 
@@ -27,7 +25,7 @@ export class TaskInputComponent implements OnInit {
   }
 
   handleAdd () {
-    if (this.taskNameInput == '') {
+    if (!this.taskNameInput) {
       alert('Task name is required')
       return;
     }

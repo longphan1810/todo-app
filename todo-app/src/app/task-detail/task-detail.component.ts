@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskDetailService } from './task-detail.service';
 import { Subscription } from 'rxjs';
-import { stateInterface } from '../home/home.store';
-import { taskInterface } from './task-detail.store';
+import { listTask, taskForm } from '../home/home.store';
 
 @Component({
   selector: 'app-task-detail',
@@ -13,8 +12,8 @@ import { taskInterface } from './task-detail.store';
 })
 
 export class TaskDetailComponent implements OnInit, OnDestroy {
-  state: stateInterface = [{taskName: '', taskDes: ''}];
-  task: taskInterface | undefined = {taskName: '', taskDes: ''};
+  state: listTask  = [{taskName: '', taskDes: ''}];
+  task: taskForm | undefined = {taskName: '', taskDes: ''};
   subscriber: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private taskDetailService: TaskDetailService) {}
@@ -24,7 +23,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     const getState = this.taskDetailService.state$.subscribe((state) => {
       this.state = state;
       const taskName = this.route.snapshot.params['taskName'];
-      this.state.find((task: taskInterface) => task.taskName == taskName) ? this.task = this.state.find((task: taskInterface) => task.taskName == taskName) : this.task = {taskName: '', taskDes: ''};
+      this.state.find((task: taskForm) => task.taskName == taskName) ? this.task = this.state.find((task: taskForm) => task.taskName == taskName) : this.task = {taskName: '', taskDes: ''};
     })
     this.subscriber.push(getState);
   }
@@ -33,8 +32,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     this.subscriber.forEach((sub) => sub.unsubscribe());
   }
 
-  handleDelete(task: taskInterface) {
-    this.state = this.state.filter((item: taskInterface) => item !== task);
+  handleDelete(task: taskForm) {
+    this.state = this.state.filter((item: taskForm) => item !== task);
     this.taskDetailService.deleteData(task)
   }
 }

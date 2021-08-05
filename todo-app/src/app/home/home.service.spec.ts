@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HomeService } from './home.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -21,7 +21,6 @@ describe('HomeService', () => {
   });
 
   describe('connect to API server methods: postData, getData, moveData, deleteData', () => {
-
     it('should call API POST to server when add new task', () => {
       spyOn(httpClient, 'post').and.callThrough();
       service.postData({id: 0, taskName: 'test', taskDes: 'test'});
@@ -47,54 +46,54 @@ describe('HomeService', () => {
     })
   })
 
-  describe('get state methods', () => {
+  describe('get state', () => {
     it('should return observable of state', () => {
       service.state$.subscribe((state) => expect(state).toEqual(service.store.state.value))
     })
 
     it('should return state value', () => {
-      let state = service.state;
+      const state = service.state;
       expect(state).toEqual(service.store.state.value);
     })
   })
 
-  describe('moveTop method', () => {
+  describe('moveTop', () => {
     beforeEach(() => {
       service.getData();
     });
 
     it('should return a null task when no chosen task', () => {
-      let moveTop = service.moveTop({taskName: '', taskDes: ''});
+      const moveTop = service.moveTop({taskName: '', taskDes: ''});
       expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
     it('shoud move the chosen task to top when have chosen task', () => {
       setTimeout(function () {
-        let task = service.state[3]
+        const task = service.state[3]
         service.moveTop(task);
         expect(task).toEqual(service.state[0]);
       },3000);
     })
   })
 
-  describe('moveDown method', () => {
+  describe('moveDown', () => {
     beforeEach(() => {
       service.getData();
     });
 
     it('should return a null task when no chosen task', () => {
-      let moveTop = service.moveDown({id: 0, taskName: '', taskDes: ''});
+      const moveTop = service.moveDown({id: 0, taskName: '', taskDes: ''});
       expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
     it('should return a null task when chosen task is the last task', () => {
-      let moveTop = service.moveDown(service.state[service.state.length-1]);
+      const moveTop = service.moveDown(service.state[service.state.length-1]);
       expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
     it('shoud move the chosen task down when have chosen task and it is not the last task', () => {
       setTimeout(function () {
-        let task = service.state[2];
+        const task = service.state[2];
         service.moveDown(task);
         expect(task).toEqual(service.state[3]);
       }, 3000)

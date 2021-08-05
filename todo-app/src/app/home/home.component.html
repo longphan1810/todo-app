@@ -10,7 +10,7 @@
     <p class="task-list-title">Task list</p>
     <ng-container *ngIf="state$ | async as state">
       <div *ngFor="let task of state">
-        <app-task (taskSelected)="choseTask($event)" [task]="task" [chosen]="task.taskName == chosenTask.taskName && task.taskDes == chosenTask.taskDes ? true : false"></app-task>
+        <app-task (taskSelected)="choseTask($event)" [task]="task" [chosenTask]="chosenTask"></app-task>
       </div>
     </ng-container>
     <div class="task-list-button">
