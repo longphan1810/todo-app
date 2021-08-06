@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskDetailService } from './task-detail.service';
 import { Subscription } from 'rxjs';
-import { listTask, taskForm } from '../home/home.store';
+import { ListTask, TaskForm } from './task-detail.store';
 
 @Component({
   selector: 'app-task-detail',
@@ -12,8 +12,8 @@ import { listTask, taskForm } from '../home/home.store';
 })
 
 export class TaskDetailComponent implements OnInit, OnDestroy {
-  state: listTask  = [{taskName: '', taskDes: ''}];
-  task: taskForm | undefined = {taskName: '', taskDes: ''};
+  state: ListTask  = [{taskName: '', taskDes: ''}];
+  task: TaskForm | undefined = {taskName: '', taskDes: ''};
   subscriber: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private taskDetailService: TaskDetailService) {}
@@ -23,7 +23,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     const getState = this.taskDetailService.state$.subscribe((state) => {
       this.state = state;
       const taskName = this.route.snapshot.params['taskName'];
-      this.state.find((task: taskForm) => task.taskName == taskName) ? this.task = this.state.find((task: taskForm) => task.taskName == taskName) : this.task = {taskName: '', taskDes: ''};
+      this.state.find((task: TaskForm) => task.taskName == taskName) ? this.task = this.state.find((task: TaskForm) => task.taskName == taskName) : this.task = {taskName: '', taskDes: ''};
     })
     this.subscriber.push(getState);
   }
@@ -32,8 +32,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     this.subscriber.forEach((sub) => sub.unsubscribe());
   }
 
-  handleDelete(task: taskForm) {
-    this.state = this.state.filter((item: taskForm) => item !== task);
+  handleDelete(task: TaskForm) {
+    this.state = this.state.filter((item: TaskForm) => item !== task);
     this.taskDetailService.deleteData(task)
   }
 }

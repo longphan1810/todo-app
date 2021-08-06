@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
-import { taskForm } from '../home/home.store';
+import { TaskForm } from '../home/home.store';
 
 @Component({
   selector: 'app-task',
@@ -10,9 +10,9 @@ import { taskForm } from '../home/home.store';
 
 export class TaskComponent implements OnInit, OnChanges {
   @Input()
-  task: taskForm = {taskName: '', taskDes: ''};
+  task: TaskForm = {taskName: '', taskDes: ''};
   @Input()
-  chosenTask: taskForm = {taskName: '', taskDes: ''};;
+  chosenTask: TaskForm = {taskName: '', taskDes: ''};;
 
   @Output()
   taskSelected = new EventEmitter();

@@ -1,18 +1,18 @@
 import { BehaviorSubject, Observable } from "rxjs";
 
-export interface taskForm {
+export interface TaskForm {
   id?: number,
   taskName: string,
   taskDes: string
 }
 
-export interface listTask extends Array<taskForm> {}
+export interface ListTask extends Array<TaskForm> {}
 
-export class homeStore {
-  private initState: listTask = [{id: 0, taskName: '', taskDes: ''}]
-  public state: BehaviorSubject<listTask> = new BehaviorSubject(this.initState);
+export class HomeStore {
+  private initState: ListTask = [{id: 0, taskName: '', taskDes: ''}]
+  public state: BehaviorSubject<ListTask> = new BehaviorSubject(this.initState);
 
-  public getState$(): Observable<listTask> {
+  public getState$(): Observable<ListTask> {
     return this.state.asObservable();
   }
 
@@ -20,7 +20,7 @@ export class homeStore {
     return this.state.value;
   }
 
-  public pushNext(value: listTask) {
+  public pushNext(value: ListTask) {
     this.state.next(value);
   }
 }

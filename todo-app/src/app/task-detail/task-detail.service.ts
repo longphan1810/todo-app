@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { taskDetailStore } from './task-detail.store';
+import { TaskDetailStore } from './task-detail.store';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { listTask, taskForm } from '../home/home.store';
+import { ListTask, TaskForm } from '../home/home.store';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { listTask, taskForm } from '../home/home.store';
 
 export class TaskDetailService implements OnDestroy {
   public subscriber: Subscription[] = [];
-  public store = new taskDetailStore();
+  public store = new TaskDetailStore();
   private apiUrl = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) {}
@@ -23,15 +23,15 @@ export class TaskDetailService implements OnDestroy {
     this.httpClient.get(this.apiUrl).subscribe((data: any) => this.store.pushNext(data));
   }
 
-  deleteData(data: taskForm) {
+  deleteData(data: TaskForm) {
     this.httpClient.delete(`${this.apiUrl}/${data.id}`).subscribe((data) => console.log(data));
   }
 
-  get state$(): Observable<listTask> {
+  get state$(): Observable<ListTask> {
     return this.store.getState$();
   }
 
-  get state(): listTask {
+  get state(): ListTask {
     return this.store.getState();
   }
 }

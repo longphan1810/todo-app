@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HomeService } from './home.service';
-import { listTask, taskForm } from './home.store';
+import { ListTask, TaskForm } from './home.store';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private homeService: HomeService) {}
 
-  get state$(): Observable<listTask> {
+  get state$(): Observable<ListTask> {
     return this.homeService.state$;
   }
 
@@ -22,23 +22,23 @@ export class HomeComponent implements OnInit {
     this.homeService.getData();
   }
 
-  addTask(task: taskForm) {
+  addTask(task: TaskForm) {
     this.homeService.postData(task);
   }
 
-  choseTask(task: taskForm) {
+  choseTask(task: TaskForm) {
     this.chosenTask = task;
   }
 
-  handleTop(task: taskForm) {
+  handleTop(task: TaskForm) {
     this.chosenTask = this.homeService.moveTop(task);
   }
 
-  handleDown(task: taskForm) {
+  handleDown(task: TaskForm) {
     this.chosenTask = this.homeService.moveDown(task)
   }
 
-  handleDelete(task: taskForm) {
+  handleDelete(task: TaskForm) {
     this.homeService.deleteData(task);
   }
 }

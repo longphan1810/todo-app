@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { homeStore } from './home.store';
+import { HomeStore } from './home.store';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { taskForm, listTask } from './home.store';
+import { TaskForm, ListTask } from './home.store';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class HomeService implements OnDestroy {
   public subscriber: Subscription[] = [];
-  public store = new homeStore();
+  public store = new HomeStore();
   private apiUrl = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) { }
@@ -19,7 +19,7 @@ export class HomeService implements OnDestroy {
     this.subscriber.forEach((sub: Subscription) => {sub.unsubscribe();});
   }
 
-  postData(data: taskForm) {
+  postData(data: TaskForm) {
     this.httpClient.post(this.apiUrl, data).pipe(
       map(() => this.getData()),
     ).subscribe((data) => console.log(data));
@@ -29,13 +29,13 @@ export class HomeService implements OnDestroy {
     this.httpClient.get(this.apiUrl).subscribe((data: any) => {this.store.pushNext(data);});
   }
 
-  moveData(data: {task: taskForm, nextTask: taskForm}) {
+  moveData(data: {task: TaskForm, nextTask: TaskForm}) {
     this.httpClient.put(this.apiUrl, data).subscribe((data) => {
       console.log(data);
     });
   }
 
-  deleteData(data: taskForm) {
+  deleteData(data: TaskForm) {
     if (!data.taskName) {
       return;
     }
@@ -46,48 +46,48 @@ export class HomeService implements OnDestroy {
     });
   }
 
-  moveTop(task: taskForm) {
+  moveTop(task: TaskForm) {
     if (!task.taskName) {
       return {taskName: '', taskDes: ''};
     }
 
-    const listTask: listTask = this.state;
-    this.moveData({task: task, nextTask: listTask[0]});
+    const ListTask: ListTask = this.state;
+    this.moveData({task: task, nextTask: ListTask[0]});
     const taskName = task.taskName;
     const taskDes = task.taskDes;
-    task.taskName = listTask[0].taskName;
-    task.taskDes = listTask[0].taskDes;
-    listTask[0].taskName = taskName;
-    listTask[0].taskDes = taskDes;
-    return listTask[0];
+    task.taskName = ListTask[0].taskName;
+    task.taskDes = ListTask[0].taskDes;
+    ListTask[0].taskName = taskName;
+    ListTask[0].taskDes = taskDes;
+    return ListTask[0];
   }
 
-  moveDown(task: taskForm) {
+  moveDown(task: TaskForm) {
     if (!task.taskName) {
       return {taskName: '', taskDes: ''};
     }
 
-    const listTask: listTask = this.state;
-    const indexChange: number = listTask.findIndex((item: taskForm) => item.id == task.id);
+    const ListTask: ListTask = this.state;
+    const indexChange: number = ListTask.findIndex((item: TaskForm) => item.id == task.id);
     if (indexChange == this.state.length -1) {
       return {taskName: '', taskDes: ''};
     }
 
-    this.moveData({task: task, nextTask: listTask[indexChange+1]});
+    this.moveData({task: task, nextTask: ListTask[indexChange+1]});
     const taskName = task.taskName;
     const taskDes = task.taskDes;
-    task.taskName = listTask[indexChange+1].taskName;
-    task.taskDes = listTask[indexChange+1].taskDes;
-    listTask[indexChange+1].taskName = taskName;
-    listTask[indexChange+1].taskDes = taskDes;
-    return listTask[indexChange+1];
+    task.taskName = ListTask[indexChange+1].taskName;
+    task.taskDes = ListTask[indexChange+1].taskDes;
+    ListTask[indexChange+1].taskName = taskName;
+    ListTask[indexChange+1].taskDes = taskDes;
+    return ListTask[indexChange+1];
   }
 
-  get state$(): Observable<listTask> {
+  get state$(): Observable<ListTask> {
     return this.store.getState$();
   }
 
-  get state(): listTask {
+  get state(): ListTask {
     return this.store.getState();
   }
 }
