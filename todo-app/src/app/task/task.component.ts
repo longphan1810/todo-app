@@ -1,43 +1,41 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
-
+import { TaskForm } from '../home/home.store';
 
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
+
 export class TaskComponent implements OnInit, OnChanges {
   @Input()
-  task: any;
+  task: TaskForm = {taskName: '', taskDes: ''};
   @Input()
-  chosen: any = false;
-
-
+  chosenTask: TaskForm = {taskName: '', taskDes: ''};
 
   @Output()
   taskSelected = new EventEmitter();
-  constructor(private router: Router) {}
 
   className = '';
 
-  ngOnInit(): void {
-    console.log(this.task)
-  }
-  onTaskSelected() {
+  constructor(private router: Router) {}
 
+  ngOnInit(): void {}
+
+  onTaskSelected() {
     this.taskSelected.emit(this.task);
   }
+
   navigateTask() {
-    this.router.navigate([this.task.taskName])
+    this.router.navigate([this.task.taskName]);
   }
 
   ngOnChanges() {
-    this.className = this.chosen ? "task-chosen" : "task-item";
+    const selected = "task-chosen";
+    const nun = "task-item"
+    this.className = this.chosenTask === this.task ? selected : nun;
   }
+}
 
-}
-function block(block: any) {
-  throw new Error('Function not implemented.');
-}
 

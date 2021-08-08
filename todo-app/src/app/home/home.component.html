@@ -3,22 +3,22 @@
 </div>
 
 <div class="task">
-
   <div class="task-input">
     <app-task-input (sendTask)="addTask($event)"></app-task-input>
   </div>
   <div class="task-list">
     <p class="task-list-title">Task list</p>
-    <div *ngFor="let task of listTask">
-      <app-task (taskSelected)="choseTask($event)" [task]="task" [chosen]="task.taskName == chosenTask.taskName && task.taskDes == chosenTask.taskDes ? true : false"></app-task>
-      <!-- <p>{{task.taskName}}</p> -->
-    </div>
+    <ng-container *ngIf="state$ | async as state">
+      <div *ngFor="let task of state">
+        <app-task (taskSelected)="choseTask($event)" [task]="task" [chosenTask]="chosenTask"></app-task>
+      </div>
+    </ng-container>
     <div class="task-list-button">
       <button (click)="handleTop(chosenTask)">TOP</button>
       <button (click)="handleDown(chosenTask)">DOWN</button>
       <button id="doneBtn" (click)="handleDelete(chosenTask)">DONE</button>
     </div>
   </div>
-
 </div>
+
 <router-outlet></router-outlet>

@@ -9,6 +9,7 @@
   text-align: center;
   margin-top: 5%;
 }
+
 .taskDetailName {
   width: 40%;
   border: solid 3px palevioletred;
@@ -21,7 +22,6 @@
   word-wrap: break-word;
   margin-left: 50%;
   transform: translate(-50%);
-
 }
 
 .taskDetailDes {
@@ -42,6 +42,7 @@
     margin-top: 30%;
     transform: translate(-50%, -50%);
   }
+
   #btn1 {
     position: absolute;
     bottom: calc(-0.5em - 4px);
@@ -54,6 +55,7 @@
       text-decoration: none;
       color: palevioletred;
     }
+
     &:hover {
       background-color: green;
       border:solid green;
@@ -62,6 +64,7 @@
       }
     }
   }
+
   #btn2 {
     position: absolute;
     bottom: calc(-0.5em - 4px);
@@ -74,6 +77,7 @@
       text-decoration: none;
       color: palevioletred;
     }
+
     &:hover {
       background-color: red;
       border:solid red;
@@ -82,6 +86,5 @@
       }
     }
   }
-
 }
 

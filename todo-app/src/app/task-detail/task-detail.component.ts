@@ -1,32 +1,39 @@
-import { Component, DoCheck, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MserviceService } from '../mservice.service';
+import { TaskDetailService } from './task-detail.service';
+import { Subscription } from 'rxjs';
+import { ListTask, TaskForm } from './task-detail.store';
+
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
-  styleUrls: ['./task-detail.component.scss']
+  styleUrls: ['./task-detail.component.scss'],
+  providers: [TaskDetailComponent]
 })
-export class TaskDetailComponent implements OnInit {
-  @Input()
-  listTask: any = [];
 
-  task: any = {};
-  constructor(private route: ActivatedRoute,private myservice: MserviceService) { }
+export class TaskDetailComponent implements OnInit, OnDestroy {
+  state: ListTask  = [{taskName: '', taskDes: ''}];
+  task: TaskForm | undefined = {taskName: '', taskDes: ''};
+  subscriber: Subscription[] = [];
+
+  constructor(private route: ActivatedRoute, private taskDetailService: TaskDetailService) {}
 
   ngOnInit(): void {
-
-    this.myservice.getData().subscribe((data) => {
-      this.listTask = data;
-      console.log(this.listTask)
+    this.taskDetailService.getData()
+    const getState = this.taskDetailService.state$.subscribe((state) => {
+      this.state = state;
       const taskName = this.route.snapshot.params['taskName'];
-      this.task = this.listTask.find((task: any) => task.taskName == taskName);
-    });
-    console.log(this.listTask)
-
-
+      this.state.find((task: TaskForm) => task.taskName === taskName) ? this.task = this.state.find((task: TaskForm) => task.taskName === taskName) : this.task = {taskName: '', taskDes: ''};
+    })
+    this.subscriber.push(getState);
   }
-  handleDelete(task: any) {
-    this.listTask = this.listTask.filter((item: any) => item !== task);
-    this.myservice.deleteData(task).subscribe((data) => console.log(data));
+
+  ngOnDestroy () {
+    this.subscriber.forEach((sub) => sub.unsubscribe());
+  }
+
+  handleDelete(task: TaskForm) {
+    this.state = this.state.filter((item: TaskForm) => item !== task);
+    this.taskDetailService.deleteAndReload(task)
   }
 }

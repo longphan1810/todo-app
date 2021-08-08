@@ -1,69 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { MserviceService } from '../mservice.service';
+import { Observable } from 'rxjs';
+import { HomeService } from './home.service';
+import { ListTask, TaskForm } from './home.store';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [HomeService]
 })
 export class HomeComponent implements OnInit {
+  public chosenTask = {taskName: '', taskDes: ''};
 
-  constructor(private myservice: MserviceService) { }
-  listTask: any = [];
-  chosenTask: any = {};
+  constructor(private homeService: HomeService) {}
+
+  get state$(): Observable<ListTask> {
+    return this.homeService.state$;
+  }
+
   ngOnInit(): void {
-    this.myservice.getData().subscribe((data) => {
-
-      this.listTask = data;
-      console.log(this.listTask);
-    });
-    console.log(this.listTask);
+    this.homeService.getData();
   }
 
-  addTask(task: any) {
-    console.log(task);
-    // this.listTask = [task, ...this.listTask];
-    this.myservice.postData(task).subscribe((task: any) => this.listTask=[task[0],...this.listTask]);
+  addTask(task: TaskForm) {
+    this.homeService.postAndReload(task);
   }
-  choseTask(task: any) {
 
+  choseTask(task: TaskForm) {
     this.chosenTask = task;
-    console.log(this.chosenTask);
   }
 
-  handleTop(task: any) {
-    if (task.taskName == null) {
-      return;
-    }
-    let taskName = task.taskName;
-    let taskDes = task.taskDes;
-    this.myservice.move({task: task, nextTask: this.listTask[0]}).subscribe((data: any) => console.log(data));
-    let indexChange: any = this.listTask.findIndex((value: null) => value == task);
-    this.listTask[indexChange].taskName = this.listTask[0].taskName;
-    this.listTask[indexChange].taskDes = this.listTask[0].taskDes;
-    this.listTask[0].taskName = taskName;
-    this.listTask[0].taskDes = taskDes;
-    this.chosenTask = this.listTask[0];
+  handleTop(task: TaskForm) {
+    this.chosenTask = this.homeService.moveTop(task);
   }
-  handleDown(task: any) {
-    if (task.taskName == null) {
-      return;
-    }
-    let taskName = task.taskName;
-    let taskDes = task.taskDes;
-    let indexChange: any = this.listTask.findIndex((value: null) => value == task);
-    if (indexChange == this.listTask.length -1) {
-      return;
-    }
-    this.myservice.move({task: task, nextTask: this.listTask[indexChange+1]}).subscribe((data: any) => console.log(data));
-    task.taskName = this.listTask[indexChange+1].taskName;
-    task.taskDes = this.listTask[indexChange+1].taskDes;
-    this.listTask[indexChange+1].taskName = taskName;
-    this.listTask[indexChange+1].taskDes = taskDes;
-    this.chosenTask = this.listTask[indexChange+1];
+
+  handleDown(task: TaskForm) {
+    this.chosenTask = this.homeService.moveDown(task)
   }
-  handleDelete(task: any) {
-    this.listTask = this.listTask.filter((item: any) => item !== task);
-    this.myservice.deleteData(task).subscribe((data) => console.log(data));
+
+  handleDelete(task: TaskForm) {
+    this.homeService.deleteAndReload(task);
   }
 }

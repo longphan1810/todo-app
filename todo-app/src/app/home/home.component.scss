@@ -24,20 +24,17 @@
   font-family: 'Courier New', Courier, monospace;
   .task-input {
     width: 30%;
-
-
   }
+
   .task-list {
     min-height: 60vh;
     padding: 10px;
     width: 20%;
     position: relative;
     border: solid 3px rgb(223, 152, 66);
-
     .task-list-title {
       width: fit-content;
       margin-left: 50%;
-
       transform: translate(-50%);
       color: rgb(223, 152, 66);
       font-size: 1.5em;
@@ -63,7 +60,6 @@
         &:hover {
           background-color: green;
         }
-
       }
 
       #doneBtn {
@@ -71,14 +67,9 @@
         background-color: red;
         }
       }
-
     }
-
   }
-
-
 }
-
 
 @media only screen and (max-width: 769px) {
   .app-title {
@@ -86,13 +77,14 @@
       font-size: 2em;
     }
   }
+
   .task {
     display: block;
     .task-input {
       width: 100%;
       margin-bottom: 10%;
-
     }
+
     .task-list {
       width: 80%;
       margin-left: 50%;
@@ -100,6 +92,4 @@
       margin-bottom: 10%;
     }
   }
-
-
 }
