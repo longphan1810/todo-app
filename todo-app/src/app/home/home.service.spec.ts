@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HomeService } from './home.service';
 import { HttpClient } from '@angular/common/http';
+import { ListTask } from './home.store';
 
 describe('HomeService', () => {
   let service: HomeService;
@@ -23,7 +24,7 @@ describe('HomeService', () => {
   describe('connect to API server methods: postData, getData, moveData, deleteData', () => {
     it('should call API POST to server when add new task', () => {
       spyOn(httpClient, 'post').and.callThrough();
-      service.postData({id: 0, taskName: 'test', taskDes: 'test'});
+      service.postAndReload({id: 0, taskName: 'test', taskDes: 'test'});
       expect(httpClient.post).toHaveBeenCalled();
     })
 
@@ -41,14 +42,18 @@ describe('HomeService', () => {
 
     it('should call API DELETE to server when done a task', () => {
       spyOn(httpClient, 'delete').and.callThrough();
-      service.deleteData({id: 0, taskName: 'test', taskDes: 'test'});
+      service.deleteAndReload({id: 0, taskName: 'test', taskDes: 'test'});
       expect(httpClient.delete).toHaveBeenCalled();
     })
   })
 
   describe('get state', () => {
     it('should return observable of state', () => {
-      service.state$.subscribe((state) => expect(state).toEqual(service.store.state.value))
+      let stateValue: ListTask;
+      service.state$.subscribe((state) => stateValue = state);
+      setTimeout(function() {
+        expect(stateValue).toEqual(service.store.state.value)
+      }, 3000)
     })
 
     it('should return state value', () => {
@@ -67,7 +72,7 @@ describe('HomeService', () => {
       expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
-    it('shoud move the chosen task to top when have chosen task', () => {
+    it('should move the chosen task to top when have chosen task', () => {
       setTimeout(function () {
         const task = service.state[3]
         service.moveTop(task);
@@ -91,7 +96,7 @@ describe('HomeService', () => {
       expect(moveTop).toEqual({taskName: '', taskDes: ''});
     })
 
-    it('shoud move the chosen task down when have chosen task and it is not the last task', () => {
+    it('should move the chosen task down when have chosen task and it is not the last task', () => {
       setTimeout(function () {
         const task = service.state[2];
         service.moveDown(task);

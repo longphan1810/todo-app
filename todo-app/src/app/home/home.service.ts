@@ -3,7 +3,6 @@ import { HomeStore } from './home.store';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { TaskForm, ListTask } from './home.store';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +19,15 @@ export class HomeService implements OnDestroy {
   }
 
   postData(data: TaskForm) {
-    this.httpClient.post(this.apiUrl, data).pipe(
-      map(() => this.getData()),
-    ).subscribe((data) => console.log(data));
+    return this.httpClient.post(this.apiUrl, data);
+  }
+
+  postAndReload(data: TaskForm) {
+    this.postData(data)
+    .subscribe((res) => {
+      console.log(res);
+      this.getData();
+    });
   }
 
   getData() {
@@ -35,12 +40,16 @@ export class HomeService implements OnDestroy {
     });
   }
 
-  deleteData(data: TaskForm) {
+  deleteData(url: string) {
+    return this.httpClient.delete(url);
+  }
+
+  deleteAndReload(data: TaskForm) {
     if (!data.taskName) {
       return;
     }
 
-    this.httpClient.delete(`${this.apiUrl}/${data.id}`).subscribe((data) => {
+    this.deleteData(`${this.apiUrl}/${data.id}`).subscribe((data) => {
       console.log(data);
       this.getData();
     });
@@ -68,8 +77,8 @@ export class HomeService implements OnDestroy {
     }
 
     const ListTask: ListTask = this.state;
-    const indexChange: number = ListTask.findIndex((item: TaskForm) => item.id == task.id);
-    if (indexChange == this.state.length -1) {
+    const indexChange: number = ListTask.findIndex((item: TaskForm) => item.id === task.id);
+    if (indexChange === this.state.length -1) {
       return {taskName: '', taskDes: ''};
     }
 

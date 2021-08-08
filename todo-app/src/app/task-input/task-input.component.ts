@@ -33,9 +33,9 @@ export class TaskInputComponent implements OnInit {
     this.sendTask.emit({taskName: this.taskNameInput, taskDes: this.taskDesInput});
     this.taskNameInput = '';
     this.taskDesInput = '';
-    const taskNameEle: HTMLElement | null = document.getElementById('taskName');
-    taskNameEle? (taskNameEle as HTMLInputElement).value = '' : '';
-    const taskDesEle: HTMLElement | null = document.getElementById('taskDes');
-    taskNameEle? (taskDesEle as HTMLInputElement).value = '' : '';
+    const taskNameEle = <HTMLInputElement>document.getElementById('taskName');
+    taskNameEle.value = '';
+    const taskDesEle = <HTMLInputElement>document.getElementById('taskDes');
+    taskDesEle.value = '';
   }
 }

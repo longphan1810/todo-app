@@ -23,7 +23,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     const getState = this.taskDetailService.state$.subscribe((state) => {
       this.state = state;
       const taskName = this.route.snapshot.params['taskName'];
-      this.state.find((task: TaskForm) => task.taskName == taskName) ? this.task = this.state.find((task: TaskForm) => task.taskName == taskName) : this.task = {taskName: '', taskDes: ''};
+      this.state.find((task: TaskForm) => task.taskName === taskName) ? this.task = this.state.find((task: TaskForm) => task.taskName === taskName) : this.task = {taskName: '', taskDes: ''};
     })
     this.subscriber.push(getState);
   }
@@ -34,6 +34,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
 
   handleDelete(task: TaskForm) {
     this.state = this.state.filter((item: TaskForm) => item !== task);
-    this.taskDetailService.deleteData(task)
+    this.taskDetailService.deleteAndReload(task)
   }
 }

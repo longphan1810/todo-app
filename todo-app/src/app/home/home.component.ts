@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   addTask(task: TaskForm) {
-    this.homeService.postData(task);
+    this.homeService.postAndReload(task);
   }
 
   choseTask(task: TaskForm) {
@@ -39,6 +39,6 @@ export class HomeComponent implements OnInit {
   }
 
   handleDelete(task: TaskForm) {
-    this.homeService.deleteData(task);
+    this.homeService.deleteAndReload(task);
   }
 }

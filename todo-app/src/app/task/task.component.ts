@@ -12,7 +12,7 @@ export class TaskComponent implements OnInit, OnChanges {
   @Input()
   task: TaskForm = {taskName: '', taskDes: ''};
   @Input()
-  chosenTask: TaskForm = {taskName: '', taskDes: ''};;
+  chosenTask: TaskForm = {taskName: '', taskDes: ''};
 
   @Output()
   taskSelected = new EventEmitter();
@@ -34,7 +34,7 @@ export class TaskComponent implements OnInit, OnChanges {
   ngOnChanges() {
     const selected = "task-chosen";
     const nun = "task-item"
-    this.className = this.chosenTask == this.task ? selected : nun;
+    this.className = this.chosenTask === this.task ? selected : nun;
   }
 }
 

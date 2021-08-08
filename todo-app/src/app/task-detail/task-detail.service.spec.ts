@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TaskDetailService } from './task-detail.service';
 import { HttpClient } from '@angular/common/http';
+import { ListTask } from './task-detail.store';
 
 describe('TaskDetailService', () => {
   let service: TaskDetailService;
@@ -30,15 +31,18 @@ describe('TaskDetailService', () => {
 
     it('should call API DELETE to server when delete current task', () => {
       spyOn(httpClient, 'delete').and.callThrough();
-      service.deleteData({taskName: 'test', taskDes: 'test'});
+      service.deleteAndReload({taskName: 'test', taskDes: 'test'});
       expect(httpClient.delete).toHaveBeenCalled();
     })
   })
 
   describe('get state', () => {
-
     it('should return observable of state', () => {
-      service.state$.subscribe((state) => expect(state).toEqual(service.store.state.value))
+      let stateValue: ListTask;
+      service.state$.subscribe((state) => stateValue = state);
+      setTimeout(function() {
+        expect(stateValue).toEqual(service.store.state.value)
+      }, 3000)
     })
 
     it('should return state value', () => {
